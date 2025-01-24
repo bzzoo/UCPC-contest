@@ -1,4 +1,4 @@
-package basic.twopointer;
+package basic.two_pointer;
 
 import java.util.ArrayList;
 import java.util.Scanner;
