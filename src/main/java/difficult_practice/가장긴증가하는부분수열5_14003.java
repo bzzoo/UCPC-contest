@@ -1,7 +1,6 @@
 package difficult_practice;
 
 import java.io.*;
-
 import java.util.*;
 
 public class 가장긴증가하는부분수열5_14003 {
@@ -14,44 +13,35 @@ public class 가장긴증가하는부분수열5_14003 {
                 .toArray();
 
         int[] dp = new int[N];
-        int[] indexTrace = new int[N];
-        List<Integer> lis = new ArrayList<>();
-        lis.add(arr[0]);
+        int[] trace = new int[N];
 
-        dp[0] = 1;
-        indexTrace[0] = 0;
+        dp[0] = arr[0];
+        int len = 1;
 
-        for(int i = 1; i < N; i++) {
-            if(arr[i] > lis.get(lis.size()-1)) {
-                lis.add(arr[i]);
-                dp[i] = lis.size();
-                indexTrace[i] = lis.size()-1;
+        for (int i = 1; i < N; i++) {
+            if (dp[len - 1] < arr[i]) {
+                dp[len] = arr[i];
+                trace[i] = len;
+                len++;
             } else {
-                int pos = Collections.binarySearch(lis, arr[i]);
-                if(pos < 0) {
-                    pos = -pos - 1;
-                    lis.set(pos, arr[i]);
-                    dp[i] = pos + 1;
-                    indexTrace[i] = pos;
-                }
+                int pos = Arrays.binarySearch(dp, 0, len, arr[i]);
+                if (pos < 0) pos = -(pos + 1);
+                dp[pos] = arr[i];
+                trace[i] = pos;
             }
         }
 
-        System.out.println(lis.size());
-
-        int[] result = new int[lis.size()];
-        int index = lis.size()-1;
-        for(int i = N-1; i >= 0; i--) {
-            if(dp[i] == index+1) {
-                result[index] = arr[i];
-                index--;
+        int[] lis = new int[len];
+        int k = len - 1;
+        for (int i = N - 1; i >= 0; i--) {
+            if (trace[i] == k) {
+                lis[k--] = arr[i];
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        for(int num : result) {
-            sb.append(num).append(" ");
+        System.out.println(len);
+        for (int i = 0; i < len; i++) {
+            System.out.print(lis[i] + " ");
         }
-        System.out.println(sb);
     }
 }
